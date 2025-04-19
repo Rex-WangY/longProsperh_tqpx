@@ -1,0 +1,10 @@
+{
+  "regex_patterns": {
+    "pattern_usdcnh": "<script\\s+data-sveltekit-fetched=\"\"\\s+data-ttl=\"1\"[\\s\\S]*?<\\/script>", 
+    "pattern_symbol": "\\\\\"symbol\\\\\":\\\\\".*?\\\\\"",
+    "pattern_time" : "\\\\\"regularMarketTime\\\\\":\\{.*?\\}",
+    "pattern_price": "\\\\\"regularMarketPrice\\\\\":\\{.*?\\}",
+    "pattern_change": "\\\\\"regularMarketChange\\\\\":\\{.*?\\}",
+    "pattern_change_percent": "\\\\\"regularMarketChangePercent\\\\\":\\{.*?\\}"
+    }
+  }
