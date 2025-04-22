@@ -5,6 +5,8 @@ from datetime import datetime    # string to datetime object conversion
 from time import mktime          # mktime transforms datetime objects to unix timestamps
 import json
 import os
+import pymysql
+
 
 
 def websiteSoup(stock):
@@ -52,7 +54,7 @@ def pattern_data(soup,regex_patterns):
     if usdcnh_match:
         usdcnh_text = usdcnh_match.group(0)
         print("Extracted JSON block:")
-        print(usdcnh_text)
+        # print(usdcnh_text)
 
         # checkin the symbol 
         symbol_match = re.search(pattern_symbol,usdcnh_text,re.DOTALL).group(0).replace("\\","")
@@ -118,7 +120,59 @@ def pattern_data(soup,regex_patterns):
         "fmtMarketChangePercent": fmt_change_percent
     }
 
+
+def save_to_mysql(data_dict, table_name="market_data"):
+    """
+    Save parsed market data to a MySQL table.
     
+    Parameters:
+        data_dict: dict with keys:
+            symbol, rawMarketTime, fmtMarketTime, rawMarketPrice, fmtMarketPrice,
+            rawMarketChange, fmtMarketChange, rawMarketChangePercent, fmtMarketChangePercent
+        table_name: str
+    """
+    # Define MySQL connection details
+    conn = pymysql.connect(
+        host='10.0.0.3',
+        port=3306,
+        user='root',
+        password='142857wyss',
+        database='longproserh',
+        charset='utf8mb4'
+    )
+
+    insert_sql = f"""
+    INSERT INTO {table_name} (
+        symbol, rawMarketTime, fmtMarketTime, 
+        rawMarketPrice, fmtMarketPrice, 
+        rawMarketChange, fmtMarketChange, 
+        rawMarketChangePercent, fmtMarketChangePercent
+    )
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                insert_sql,
+                (
+                    data_dict["symbol"],
+                    data_dict["rawMarketTime"],
+                    data_dict["fmtMarketTime"],
+                    data_dict["rawMarketPrice"],
+                    data_dict["fmtMarketPrice"],
+                    data_dict["rawMarketChange"],
+                    data_dict["fmtMarketChange"],
+                    data_dict["rawMarketChangePercent"],
+                    data_dict["fmtMarketChangePercent"]
+                )
+            )
+        conn.commit()
+        print("✅ Data inserted successfully into MySQL.")
+    except Exception as e:
+        print("❌ Failed to insert data into MySQL:", e)
+    finally:
+        conn.close()
 
 
 
@@ -137,4 +191,7 @@ if __name__ == "__main__":
     soup = websiteSoup('CNH=X')
     result_dic = pattern_data(soup,regex_patterns)
 
+    # print(result_dic)
+
+    save_to_mysql(result_dic)
     
