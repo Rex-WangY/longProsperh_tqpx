@@ -101,7 +101,7 @@ def pattern_data(soup,regex_patterns):
             json_str = "{" + change_percent_match + "}"
             data = json.loads(json_str)
             raw_change_percent = data['regularMarketChangePercent']['raw']
-            fmt_change_percent = data['regularMarketChangePercent']['fmt']
+            fmt_change_percent = data['regularMarketChangePercent']['fmt'].replace('%','')
             print("regularMarketChangePercent -> raw:", raw_change_percent, ", fmt:", fmt_change_percent)
         else:
             print("regularMarketChangePercent not found.")
@@ -112,12 +112,12 @@ def pattern_data(soup,regex_patterns):
         "symbol": "CNH=X",
         "rawMarketTime": raw_time,
         "fmtMarketTime": fmt_time,
-        "rawMarketPrice": raw_price,
-        "fmtMarketPrice": fmt_price,
-        "rawMarketChange": raw_change,
-        "fmtMarketChange": fmt_change,
-        "rawMarketChangePercent": raw_change_percent,
-        "fmtMarketChangePercent": fmt_change_percent
+        "rawMarketPrice": float(raw_price),
+        "fmtMarketPrice": float(fmt_price),
+        "rawMarketChange": float(raw_change),
+        "fmtMarketChange": float(fmt_change),
+        "rawMarketChangePercent": float(raw_change_percent),
+        "fmtMarketChangePercent": float(fmt_change_percent)
     }
 
 
@@ -156,7 +156,6 @@ def save_to_mysql(data_dict, table_name="market_data"):
             cursor.execute(
                 insert_sql,
                 (
-                    data_dict["symbol"],
                     data_dict["rawMarketTime"],
                     data_dict["fmtMarketTime"],
                     data_dict["rawMarketPrice"],
