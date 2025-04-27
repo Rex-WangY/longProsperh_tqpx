@@ -143,10 +143,15 @@ def save_to_mysql(data_dict, table_name="market_data"):
 
     insert_sql = f"""
     INSERT INTO {table_name} (
-        symbol, rawMarketTime, fmtMarketTime, 
-        rawMarketPrice, fmtMarketPrice, 
-        rawMarketChange, fmtMarketChange, 
-        rawMarketChangePercent, fmtMarketChangePercent
+        symbol, 
+        rawMarketTime, 
+        fmtMarketTime, 
+        rawMarketPrice, 
+        fmtMarketPrice, 
+        rawMarketChange, 
+        fmtMarketChange, 
+        rawMarketChangePercent, 
+        fmtMarketChangePercent
     )
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
