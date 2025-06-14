@@ -15,7 +15,7 @@ proj/
   ├── README.md
   ├── data/
     │   ├── __init__.py
-    │   ├── yahoo_data.py
+    │   ├── data.py
     │   └── storage.py
   ├── strategies/
     │   ├── __init__.py
