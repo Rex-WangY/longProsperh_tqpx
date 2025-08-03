@@ -6,14 +6,16 @@ This is a privately customized quantitative trading platform.
   - It can be used to develop trading strategies.
   - It is a professional quantitative trading research and development platform.
 
+
 ## Project Structure
-proj/ 
+```
+proj/
   ├── main.py
   ├── requirements.txt
   ├── README.md
   ├── data/
     │   ├── __init__.py
-    │   ├── yahoo_data.py
+    │   ├── data.py
     │   └── storage.py
   ├── strategies/
     │   ├── __init__.py
@@ -27,6 +29,4 @@ proj/
   └── utils/
      ├── __init__.py
      └── logger.py
-
-
-
+```
