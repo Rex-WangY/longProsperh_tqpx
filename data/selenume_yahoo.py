@@ -42,11 +42,19 @@ def save_to_mysql(data_dict, table_name="market_data"):
         host='127.0.0.1',
         port=3306,
         user='root',
-        password='123456',
+        # password='123456',ex
+        password='142857wyss',
         database='longproserh',
         charset='utf8mb4'
     )
-
+    # conn = pymysql.connect(
+    #     host='34.9.45.56',
+    #     port=3306,
+    #     user='rex_wangy',
+    #     password='123456',
+    #     database='longproserh',
+    #     charset='utf8mb4'
+    # )
     insert_sql = f"""
     INSERT INTO {table_name} (
         symbol, 
@@ -181,5 +189,5 @@ def extract_data(url,refresh_interval_seconds=60):
 if __name__ == "__main__":
     
     url_quote = 'https://finance.yahoo.com/quote/CNH=X/'
-    refresh_interval_seconds = 120 # Refresh every 60 seconds
+    refresh_interval_seconds = 20 # Refresh every 60 seconds
     extract_data(url_quote,refresh_interval_seconds)
